@@ -1,17 +1,17 @@
 <template>
+  <!-- template 里面必须有且仅有一个div -->
   <div id="app">
     <navbar />
-    <b-container>
-      <router-view />
-    </b-container>
+    <Lunbo/>
   </div>
 </template>
 
 <script>
 import Navbar from './views/layout/Navbar.vue';
+import Lunbo from './views/layout/Lunbo.vue';
 
 export default {
-  components: { Navbar },
+  components: { Navbar , Lunbo},
   data() {
     return {};
   },

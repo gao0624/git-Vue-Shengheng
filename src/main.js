@@ -24,6 +24,7 @@ Vue.use(Vuelidate);
 // axios
 Vue.use(VueAxios, axios);
 
+//前面引入了组件 通过render渲染组件 然后挂载到#app 节点下面
 new Vue({
   router,
   store,
