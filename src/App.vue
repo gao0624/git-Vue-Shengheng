@@ -4,6 +4,7 @@
     <Lunbo/>
     <BannerSide/>
     <Serve/>
+    <ThreeDime/>
   </div>
 </template>
 
@@ -11,12 +12,14 @@
 import Lunbo from './views/layout/Lunbo.vue';
 import BannerSide from './views/layout/BannerSide.vue';
 import Serve from './views/layout/Serve.vue';
+import ThreeDime from './views/layout/ThreeDime.vue';
 
 export default {
   components: {
     Lunbo,
     BannerSide,
     Serve,
+    ThreeDime
 },
   data() {
     return {};
