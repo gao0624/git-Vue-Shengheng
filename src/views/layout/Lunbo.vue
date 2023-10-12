@@ -49,6 +49,7 @@ export default {
   overflow: hidden;
   position: relative;
   width: 100%;
+  margin-top: 56px;
 }
 
 .slide-wrapper {

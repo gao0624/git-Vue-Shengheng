@@ -111,6 +111,9 @@ export default {
       console.log('login');
     },
   },
+  created(){
+    console.log("进入登录界面了吗？")
+  }
 };
 </script>
 

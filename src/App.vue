@@ -1,25 +1,21 @@
 <template>
   <!-- template 里面必须有且仅有一个div -->
   <div id="app">
-    <Lunbo/>
-    <BannerSide/>
-    <Serve/>
-    <ThreeDime/>
+    <Navbar2/>
+      <router-view />
+    <Bottom/>
   </div>
 </template>
 
 <script>
-import Lunbo from './views/layout/Lunbo.vue';
-import BannerSide from './views/layout/BannerSide.vue';
-import Serve from './views/layout/Serve.vue';
-import ThreeDime from './views/layout/ThreeDime.vue';
+import Bottom from './views/layout/Bottom.vue';
+import Navbar2 from './views/layout/Navbar2.vue';
+
 
 export default {
   components: {
-    Lunbo,
-    BannerSide,
-    Serve,
-    ThreeDime
+    Navbar2,
+    Bottom
 },
   data() {
     return {};
