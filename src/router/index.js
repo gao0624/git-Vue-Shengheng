@@ -8,11 +8,15 @@ Vue.use(VueRouter);
 
 // ...的作用就是把对象给打散
 
-console.log("路由运行成功了嘛");
 const fullURL = window.location.href;
 console.log(fullURL);
 
 const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
   {
     path: '/home',
     name: 'Home',
@@ -26,6 +30,11 @@ const routes = [
   //   // which is lazy-loaded when the route is visited.
   //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   // },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: () => import ('@/views/contact/Contact.vue')
+  },
   ...userRoutes,
 ];
 
