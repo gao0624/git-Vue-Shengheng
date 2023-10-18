@@ -1,6 +1,16 @@
 <template>
     <div class="contactUs">
-        联系我们
+        
+        <div>
+            <!-- 姓名 -->
+
+            <!-- 电话 -->
+        </div>
+
+        <div>
+            
+        </div>
+
     </div>
 </template>
 
