@@ -43,11 +43,13 @@ const userModule = {
       return new Promise((resolve, reject) => {
         userService.login({ telephone, password }).then((res) => {
           // 保存token
-          context.commit('SET_TOKEN', res.data.data.token);
+          //context.commit('SET_TOKEN', res.data.data.token);
+          context.commit('SET_TOKEN', res.data.userId);
           return userService.info();
         }).then((res) => {
           // 保存用户信息
-          context.commit('SET_USERINFO', res.data.data.user);
+          //context.commit('SET_USERINFO', res.data.data.user);
+          context.commit('SET_USERINFO', res.data.role);
           resolve(res);
         }).catch((err) => {
           reject(err);

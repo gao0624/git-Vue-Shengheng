@@ -7,7 +7,15 @@ const register = ({ name, telephone, password }) => {
 
 // 用户登录
 const login = ({ telephone, password }) => {
-  return request.post('auth/login', { telephone, password });
+  const params = new URLSearchParams();
+  params.append('telephone', telephone);
+  params.append('password', password);
+
+  return request.post('auth/login', params, {
+    headers:{
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  });
 };
 
 // 获取用户信息

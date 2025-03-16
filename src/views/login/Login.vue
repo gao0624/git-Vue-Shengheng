@@ -98,17 +98,16 @@ export default {
 
       // 请求api
       this.userlogin(this.user).then(() => {
-        // 跳转首页
         this.$router.replace({ name: 'Home' });
       }).catch((err) => {
+        console.log('login');
+        console.log('完整错误对象:', err);
         this.$bvToast.toast(err.data.data.msg, {
           title: '数据验证错误',
           variant: 'danger',
           solid: true,
         });
       });
-
-      console.log('login');
     },
   },
   created(){
