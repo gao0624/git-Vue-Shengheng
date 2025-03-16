@@ -6,7 +6,7 @@
             </svg>
             <span class="advantage_text">
                     <div class="font">免费设计</div>
-                    <label>获取四份免费设计</label>
+                    <label>获取四份免费球桌布局设计</label>
                 </span>
         </div>
         <div>
@@ -15,7 +15,7 @@
             </svg>
             <span class="advantage_text">
                     <div class="font">免费量房</div>
-                    <label>专业人员上门量房</label>
+                    <label>专业人员上门测量球场空间</label>
                 </span>
         </div>
         <div>
@@ -24,7 +24,7 @@
             </svg>
             <span class="advantage_text">
                     <div class="font">智能报价</div>
-                <label>十年装修经验帮你报价</label>
+                <label>十年台球行业经验帮您报价</label>
                 </span>
         </div>
         <div>

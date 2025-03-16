@@ -13,10 +13,10 @@ export default {
   data() {
     return {
       items: [
-      "https://image1.zhuangku.com/upfile2018/BannerPic/20200821145935_0976.jpg",
-      "https://image1.zhuangku.com/upfile2018/BannerPic/20191227141904_3360.jpg",
-      "https://image1.zhuangku.com/upfile2018/BannerPic/20200821150021_4570.jpg",
-      "https://image1.zhuangku.com/upfile2018/BannerPic/20191227141904_3360.jpg"
+        require('@/assets/images/601732850083908.png'),
+        require('@/assets/images/701731666313123.png'),
+        require('@/assets/images/661717665253807.jpg'),
+        require('@/assets/images/621717577288738.jpg'),
       ],
       currentIndex: 0,
       autoSlideInterval: null,
@@ -49,7 +49,6 @@ export default {
   overflow: hidden;
   position: relative;
   width: 100%;
-  margin-top: 56px;
 }
 
 .slide-wrapper {

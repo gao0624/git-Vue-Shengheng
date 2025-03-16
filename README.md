@@ -1,6 +1,7 @@
 # jkdev-vue
 
-上传git仓库时，已经忽略node_modules目录，运行项目时，需要先安装依赖
+使用官方镜像源，删除两个目录，重新安装node_modules目录
+node安装使用16.20.2 msi  https://nodejs.org/download/release/v16.20.2/
 
 ## Project setup
 ```
@@ -24,3 +25,7 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+$env:NODE_OPTIONS="--openssl-legacy-provider"
+cnpm run serve

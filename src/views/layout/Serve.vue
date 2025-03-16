@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 100%;opacity: 0.9;display: flex;justify-content: center;color: white;background: url(https://www.wanzhuang.com/Public/Home/Version2/images/m_img03.jpg) no-repeat;">
+    <div style="width: 100%;opacity: 0.9;display: flex;justify-content: center;color: white;background-color: hsl(0, 70%, 50%);">
         <div style="width: 1200px;">
             <div style="font-size: 42px;width: 100%;text-align: center;margin-top: 60px;">
                 我们已经服务了
@@ -11,7 +11,7 @@
                     <div style="font-size: 60px;" class="data">7000000</div>
                 </div>
                 <div style="width: 600px;text-align: center;">
-                    <div style="font-size: 12px;font-size: 20px;">服务装修公司</div>
+                    <div style="font-size: 12px;font-size: 20px;">服务球员</div>
                     <div style="font-size: 60px;" class="data1">28530</div>
                 </div>
             </div>
@@ -22,11 +22,11 @@
                     <div style="font-size: 36px;" class="data2">210</div>
                 </div>
                 <div style="width: 400px;text-align: center;">
-                    <div style="font-size: 20px;">服务设计师</div>
+                    <div style="font-size: 20px;">专业人员</div>
                     <div style="font-size: 36px;" class="data3">40267</div>
                 </div>
                 <div style="width: 400px;text-align: center;">
-                    <div style="font-size: 20px;">服务家庭</div>
+                    <div style="font-size: 20px;">服务客户</div>
                     <div style="font-size: 36px;" class="data4">311503</div>
                 </div>
             </div>

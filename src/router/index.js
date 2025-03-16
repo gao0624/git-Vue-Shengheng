@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import store from '@/store';
 import Home from '../views/index/Home.vue'
 import userRoutes from './module/user';
+import { component } from 'vue';
 
 Vue.use(VueRouter);
 
@@ -33,7 +34,7 @@ const routes = [
   {
     path: '/contact',
     name: 'Contact',
-    component: () => import ('@/views/contact/Contact.vue')
+    component: () => import('@/views/contact/Contact.vue')
   },
   ...userRoutes,
 ];

@@ -1,6 +1,6 @@
 <template>
     <div class="pick">
-        <img src="../../assets/contactUs.jpg">
+        <img src="../../assets/855feffb-8031-405f-8a34-228f921b1f58.jpg">
     </div>
 
 </template>
