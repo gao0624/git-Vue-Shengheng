@@ -1,6 +1,8 @@
 <template>
-    <div id="map-container" style="width: 1000px; height: 400px;margin: 0 auto;" ></div>
-  </template>
+    <div style="margin-top:20px;">
+      <div id="map-container" style="width: 1000px; height: 400px;margin: 0 auto;" ></div>
+    </div>
+</template>
   
   <script>
   export default {
@@ -23,6 +25,7 @@
 <style>
  .class{
   position: absolute;
+  
  }
 </style>
   

@@ -21,7 +21,7 @@
             >
               <!-- Using 'button-content' slot -->
               <template v-slot:button-content>
-                <em>{{userInfo.name}}</em>
+                <em>{{userInfo}}</em>
               </template>
               <b-dropdown-item @click="$router.push({name:'profile'})">个人主页</b-dropdown-item>
               <b-dropdown-item @click="logout">退出</b-dropdown-item>
