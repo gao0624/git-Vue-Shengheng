@@ -1,5 +1,5 @@
 <template>
-  <div class="billiard-news-container">
+  <div class="billiard-news-container" style="margin-top: 60px;">
     <!-- 跑马灯组件 -->
     <div class="marquee-container">
       <div class="marquee-content" :style="marqueeStyle">
