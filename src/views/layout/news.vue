@@ -1,7 +1,7 @@
 <template>
   <div class="billiard-news-container" style="margin-top: 60px;">
     <!-- 跑马灯组件 -->
-    <div class="marquee-container">
+    <div class="marquee-container marquee">
       <div class="marquee-content" :style="marqueeStyle">
         <span v-for="(notice, index) in notices" :key="index" class="marquee-item">
           {{ notice }}
@@ -76,25 +76,25 @@ const notices = ref([
 ])
 
 // 跑马灯动画控制
-const marqueePosition = ref(0)
-let marqueeInterval = null
+// const marqueePosition = ref(0)
+// let marqueeInterval = null
 
-onMounted(() => {
-  marqueeInterval = setInterval(() => {
-    marqueePosition.value -= 1
-    if (marqueePosition.value < -100) {
-      marqueePosition.value = 0
-    }
-  }, 50)
-})
+// onMounted(() => {
+//   marqueeInterval = setInterval(() => {
+//     marqueePosition.value -= 1
+//     if (marqueePosition.value < -100) {
+//       marqueePosition.value = 0
+//     }
+//   }, 50)
+// })
 
-onBeforeUnmount(() => {
-  clearInterval(marqueeInterval)
-})
+// onBeforeUnmount(() => {
+//   clearInterval(marqueeInterval)
+// })
 
-const marqueeStyle = computed(() => ({
-  transform: `translateX(${marqueePosition.value}%)`
-}))
+// const marqueeStyle = computed(() => ({
+//   transform: `translateX(${marqueePosition.value}%)`
+// }))
 
 // 新闻数据
 const categories = ref(['全部', '赛事新闻', '球员动态', '技术教学', '器材测评'])
@@ -325,6 +325,13 @@ const totalPages = computed(() => {
   white-space: nowrap;
   display: inline-block;
   transition: transform 0.5s linear;
+  animation: marquee 15s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
 }
 
 .marquee-item {
