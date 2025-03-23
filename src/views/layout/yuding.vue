@@ -76,12 +76,12 @@
         <img v-for="(img, index) in companionImages" :key="index" :src="img" alt="精美照片" />
       </div>
     </div>
-    <div>{{userInfo}}</div>
   </div>
 </template>
 
 <script>
 import { mapState,mapActions } from 'vuex';
+import axios from 'axios';
 
 export default {
   data() {
@@ -119,14 +119,15 @@ export default {
   computed: {
     ...mapState('userModule',{userInfo:(state) => state.userInfo}),
     canSubmit() {
-      console.log(this.userInfo)
       const body = {
-        shop_name:this.selectedStore,
-        hall_name:this.selectedHall,
-        table_number:this.selectedTable,
-        start_end_time:this.selectedTimeSlot
+        phone: this.userInfo.phone,
+        name: this.userInfo.userName,
+        shop_name: this.selectedStore,
+        hall_name: this.selectedHall,
+        table_number: this.selectedTable,
+        start_end_time: this.selectedTimeSlot
       }
-      if(body.shop_name != "" && body.hall_name != "" && body.table_number != "" && body.start_end_time != ""){
+      if( body.phone != "" && body.name != "" && body.shop_name != "" && body.hall_name != "" && body.table_number != "" && body.start_end_time != ""){
         return body;
       }
       return "";
@@ -136,14 +137,31 @@ export default {
     selectTimeSlot(slot) {
       this.selectedTimeSlot = slot;
     },
-    submitReservation() {
+    async submitReservation() {
       if (!this.canSubmit) {
         alert('请完整选择所有预定信息！');
         return;
       }
       const body = this.canSubmit
+      const params = new URLSearchParams();
+      params.append("name", body.name);
+      params.append("phone", body.phone);
+      params.append("shop_name", body.shop_name);
+      params.append("hall_name", body.hall_name);
+      params.append("table_number", body.table_number);
+      params.append("start_end_time", body.start_end_time);
+      console.log(params)
+      //补全代码  访问接口http://localhost:9099/api/auth/addReservation
+      const respone = await axios.post(
+        'http://localhost:9099/api/auth/addReservation?',
+        params
+      )
+      if (respone.data.code == 200){
+        this.message = `预定成功！您在【${this.selectedStore}】的【${this.selectedHall}】, ${this.selectedTable}已预定时间段【${this.selectedTimeSlot}】`;
+      }else{
+        this.message = `预定失败！您在【${this.selectedStore}】的【${this.selectedHall}】, ${this.selectedTable}已预定时间段【${this.selectedTimeSlot}】`;
+      }
       
-      this.message = `预定成功！您在【${this.selectedStore}】的【${this.selectedHall}】, ${this.selectedTable}已预定时间段【${this.selectedTimeSlot}】`;
       // 3秒后自动清除提示信息
       setTimeout(() => {
         this.message = '';

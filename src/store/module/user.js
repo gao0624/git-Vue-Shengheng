@@ -56,7 +56,7 @@ const userModule = {
            *  需要把userInfo封装成一个对象方便预定页面去使用
            */
         }).then((res) => {
-          if(res.data.data != null){context.commit('SET_USERINFO', res.data.data.userName);};
+          if(res.data.data != null){context.commit('SET_USERINFO', res.data.data);};
           resolve(res);
         }).catch((err) => {
           reject(err);
