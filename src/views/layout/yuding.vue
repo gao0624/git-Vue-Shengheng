@@ -76,10 +76,13 @@
         <img v-for="(img, index) in companionImages" :key="index" :src="img" alt="精美照片" />
       </div>
     </div>
+    <div>{{userInfo}}</div>
   </div>
 </template>
 
 <script>
+import { mapState,mapActions } from 'vuex';
+
 export default {
   data() {
     return {
@@ -110,12 +113,23 @@ export default {
         require('@/assets/woman/8.jpg'),
         require('@/assets/woman/9.jpg'),
         require('@/assets/woman/10.jpg'),
-      ]
+      ],
     };
   },
   computed: {
+    ...mapState('userModule',{userInfo:(state) => state.userInfo}),
     canSubmit() {
-      return this.selectedStore && this.selectedTable && this.selectedHall && this.selectedTimeSlot;
+      console.log(this.userInfo)
+      const body = {
+        shop_name:this.selectedStore,
+        hall_name:this.selectedHall,
+        table_number:this.selectedTable,
+        start_end_time:this.selectedTimeSlot
+      }
+      if(body.shop_name != "" && body.hall_name != "" && body.table_number != "" && body.start_end_time != ""){
+        return body;
+      }
+      return "";
     }
   },
   methods: {
@@ -127,6 +141,8 @@ export default {
         alert('请完整选择所有预定信息！');
         return;
       }
+      const body = this.canSubmit
+      
       this.message = `预定成功！您在【${this.selectedStore}】的【${this.selectedHall}】, ${this.selectedTable}已预定时间段【${this.selectedTimeSlot}】`;
       // 3秒后自动清除提示信息
       setTimeout(() => {

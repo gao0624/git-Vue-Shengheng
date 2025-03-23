@@ -53,6 +53,7 @@ const userModule = {
           /**
            * Token和用户信息需要使用不同的方式进行处理，info是用户的名称，用户的头像等等信息 下面直接进行传递不在访问接口
            *  return res; ==> return userService.info();
+           *  需要把userInfo封装成一个对象方便预定页面去使用
            */
         }).then((res) => {
           if(res.data.data != null){context.commit('SET_USERINFO', res.data.data.userName);};

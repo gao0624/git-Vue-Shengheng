@@ -2,7 +2,7 @@
 // 	lintOnSave:false
 // }
 
-// vue.config.js
+// vue.config.js  为了跨域的问题 前端页面是8080  后端是9099访问接口   不同接口之间不能访问
 module.exports = {
 	lintOnSave:false,
 	devServer: {
