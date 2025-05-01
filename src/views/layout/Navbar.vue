@@ -47,11 +47,11 @@
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  computed: mapState({
-    userInfo: (state) => state.userModule.userInfo,
-  }),
+  // computed: mapState({
+  //   userInfo: (state) => state.userModule.userInfo,
+  // }),
 
-  methods: mapActions('userModule', ['logout']),
+  // methods: mapActions('userModule', ['logout']),
 };
 </script>
 

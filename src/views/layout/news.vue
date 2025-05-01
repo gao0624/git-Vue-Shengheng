@@ -1,60 +1,64 @@
 <template>
-  <div class="billiard-news-container" style="margin-top: 60px;">
+  <div class="snack-container" style="margin-top: 60px;">
     <!-- 跑马灯组件 -->
-    <div class="marquee-container marquee">
-      <div class="marquee-content" :style="marqueeStyle">
-        <span v-for="(notice, index) in notices" :key="index" class="marquee-item">
+    <div class="snack-marquee-wrap">
+      <div class="snack-marquee" :style="marqueeStyle">
+        <span
+          v-for="(notice, index) in notices"
+          :key="index"
+          class="snack-marquee-item"
+        >
           {{ notice }}
-          <i class="marquee-divider">◆</i>
+          <i class="snack-divider">🍬</i>
         </span>
       </div>
     </div>
 
-    <!-- 新闻主体内容 -->
-    <main class="news-main">
-      <h1 class="page-title">最新台球资讯</h1>
+    <!-- 正文内容 -->
+    <main class="snack-main">
+      <h1 class="snack-title">美味零食天地</h1>
       
-      <!-- 新闻分类导航 -->
-      <nav class="news-categories">
-        <button 
-          v-for="category in categories" 
-          :key="category" 
-          :class="['category-btn', { active1: selectedCategory === category }]"
-          @click="selectedCategory = category"
+      <!-- 分类导航 -->
+      <nav class="snack-nav">
+        <button
+          v-for="cat in categories"
+          :key="cat"
+          :class="['snack-btn', { 'snack-btn-active': selectedCategory === cat }]"
+          @click="selectedCategory = cat"
         >
-          {{ category }}
+          {{ cat }}
         </button>
       </nav>
 
-      <!-- 新闻列表 -->
-      <div class="news-grid">
-        <article 
-          v-for="(news, index) in filteredNews" 
-          :key="news.id" 
-          class="news-card"
-          :style="{ '--delay': index * 0.1 + 's' }"
+      <!-- 零食列表 -->
+      <div class="snack-grid">
+        <article
+          v-for="(item, idx) in filteredSnacks"
+          :key="item.id"
+          class="snack-card"
+          :style="{ '--delay': idx * 0.1 + 's' }"
         >
-          <div class="news-image">
-            <img :src="news.image" :alt="news.title">
-            <span class="news-tag">{{ news.category }}</span>
+          <div class="snack-img-wrap">
+            <img :src="item.image" :alt="item.title" />
+            <span class="snack-tag">{{ item.category }}</span>
           </div>
-          <div class="news-content">
-            <h2 class="news-title">{{ news.title }}</h2>
-            <p class="news-excerpt">{{ news.excerpt }}</p>
-            <div class="news-meta">
-              <span class="news-date">{{ news.date }}</span>
-              <span class="news-views">👁️ {{ news.views }} 浏览</span>
+          <div class="snack-info">
+            <h2 class="snack-item-title">{{ item.title }}</h2>
+            <p class="snack-desc">{{ item.excerpt }}</p>
+            <div class="snack-meta">
+              <span class="snack-date">📅 {{ item.date }}</span>
+              <span class="snack-likes">❤️ {{ item.likes }}</span>
             </div>
           </div>
         </article>
       </div>
 
-      <!-- 分页组件 -->
-      <div class="pagination">
-        <button 
-          v-for="page in totalPages" 
-          :key="page" 
-          :class="['page-btn', { active1: currentPage === page }]"
+      <!-- 分页 -->
+      <div class="snack-pager">
+        <button
+          v-for="page in totalPages"
+          :key="page"
+          :class="['snack-page', { 'snack-page-active': currentPage === page }]"
           @click="currentPage = page"
         >
           {{ page }}
@@ -65,422 +69,204 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed } from 'vue'
 
-// 跑马灯内容
+// 跑马灯提示
 const notices = ref([
-  '🎉 祝贺丁俊晖获得2023英国锦标赛冠军！',
-  '🔥 最新排名：奥沙利文重返世界第一',
-  '🏆 中国公开赛报名通道正式开启',
-  '📢 世界台联发布新赛季赛事日程'
+  '新品上市：爆浆巧克力球现已开售！',
+  '限时优惠：买二送一，薯片狂欢中！',
+  '健康推荐：低脂燕麦棒，简约轻食首选',
+  '独家预告：进口酸奶熊下周上架'
 ])
 
-// 跑马灯动画控制
-// const marqueePosition = ref(0)
-// let marqueeInterval = null
-
-// onMounted(() => {
-//   marqueeInterval = setInterval(() => {
-//     marqueePosition.value -= 1
-//     if (marqueePosition.value < -100) {
-//       marqueePosition.value = 0
-//     }
-//   }, 50)
-// })
-
-// onBeforeUnmount(() => {
-//   clearInterval(marqueeInterval)
-// })
-
-// const marqueeStyle = computed(() => ({
-//   transform: `translateX(${marqueePosition.value}%)`
-// }))
-
-// 新闻数据
-const categories = ref(['全部', '赛事新闻', '球员动态', '技术教学', '器材测评'])
+// 分类
+const categories = ref(['全部', '热销零食', '新品推荐', '健康轻食', '进口风味'])
 const selectedCategory = ref('全部')
 
-const newsList = ref([
-  {
-    id: 1,
-    title: '2023斯诺克世锦赛完整赛程公布',
-    category: '赛事新闻',
-    image: 'https://picsum.photos/400/300?random&sports=snooker',
-    excerpt: '世界斯诺克巡回赛正式公布2023年克鲁斯堡剧院赛程安排，中国军团共有5位选手获得正赛资格...',
-    date: '2023-11-15',
-    views: 23500
-  },
-  {
-    id: 2,
-    title: '丁俊晖最新训练视频曝光',
-    category: '球员动态',
-    image: 'https://picsum.photos/400/300?random=2&sports=snooker',
-    excerpt: '中国斯诺克一哥丁俊晖在谢菲尔德训练基地展示新型加塞技巧，新赛季备战状态良好...',
-    date: '2023-11-14',
-    views: 18700
-  },
-  {
-    id: 3,
-    title: '美式九球冲杆技巧全解析',
-    category: '技术教学',
-    image: 'https://picsum.photos/400/300?random=3&sports=pool',
-    excerpt: '职业选手亲自示范三种不同冲杆手法，包含力量控制、角度选择及犯规预防要点...',
-    date: '2023-11-13',
-    views: 12450
-  },
-  {
-    id: 4,
-    title: '2024台球器材展前瞻',
-    category: '器材测评',
-    image: 'https://picsum.photos/400/300?random=4&sports=equipment',
-    excerpt: '全球顶尖台球器材厂商将携最新产品亮相广州，包含智能球杆和新型台呢技术...',
-    date: '2023-11-12',
-    views: 15680
-  },
-  {
-    id: 5,
-    title: '奥沙利文宣布参加中国公开赛',
-    category: '球员动态',
-    image: 'https://picsum.photos/400/300?random=5&sports=snooker',
-    excerpt: '火箭奥沙利文确认参加明年3月北京站赛事，有望冲击职业生涯第40个排名赛冠军...',
-    date: '2023-11-11',
-    views: 29800
-  },
-  {
-    id: 6,
-    title: '九球世锦赛奖金池创新高',
-    category: '赛事新闻',
-    image: 'https://picsum.photos/400/300?random=6&sports=pool',
-    excerpt: '2024女子九球世锦赛总奖金突破50万美元，中国选手陈思明将作为卫冕冠军出战...',
-    date: '2023-11-10',
-    views: 14200
-  },
-  {
-    id: 7,
-    title: '台球走位训练系统评测',
-    category: '技术教学',
-    image: 'https://picsum.photos/400/300?random=7&sports=training',
-    excerpt: '对比测试三款智能训练系统，分析其走位模拟精度和实战应用效果...',
-    date: '2023-11-09',
-    views: 9800
-  },
-  {
-    id: 8,
-    title: '碳纤维球杆维护指南',
-    category: '器材测评',
-    image: 'https://picsum.photos/400/300?random=8&sports=cue',
-    excerpt: '专业保养师详解碳纤维球杆的日常维护要点，延长使用寿命的关键技巧...',
-    date: '2023-11-08',
-    views: 11500
-  },
-  {
-    id: 9,
-    title: '青少年台球训练营启动',
-    category: '赛事新闻',
-    image: 'https://picsum.photos/400/300?random=9&sports=youth',
-    excerpt: '中台协推出"明日之星"计划，将在全国选拔培养100名青少年台球选手...',
-    date: '2023-11-07',
-    views: 13200
-  },
-  {
-    id: 10,
-    title: '特鲁姆普更换新教练团队',
-    category: '球员动态',
-    image: 'https://picsum.photos/400/300?random=10&sports=snooker',
-    excerpt: '准神特鲁姆普宣布与知名教练克里斯·亨利合作，目标改善长台稳定性...',
-    date: '2023-11-06',
-    views: 17600
-  },
-  // 继续补充10条数据...
-  {
-    id: 11,
-    title: '中式黑八规则修订解读',
-    category: '技术教学',
-    image: 'https://picsum.photos/400/300?random=11&sports=chinese8',
-    excerpt: '2024版中式台球国际规则主要变化：新增冲球要求和犯规判罚细则...',
-    date: '2023-11-05',
-    views: 8900
-  },
-  {
-    id: 12,
-    title: '台球手套性能对比测试',
-    category: '器材测评',
-    image: 'https://picsum.photos/400/300?random=12&sports=gloves',
-    excerpt: '横向评测五款专业台球手套的防滑性、透气性和耐用性指标...',
-    date: '2023-11-04',
-    views: 7600
-  },
-  {
-    id: 13,
-    title: '世界元老锦标赛落户上海',
-    category: '赛事新闻',
-    image: 'https://picsum.photos/400/300?random=13&sports=senior',
-    excerpt: '40岁以上组别最高级别赛事首次来到中国，亨德利确认参赛...',
-    date: '2023-11-03',
-    views: 15400
-  },
-  {
-    id: 14,
-    title: '塞尔比恢复训练进度',
-    category: '球员动态',
-    image: 'https://picsum.photos/400/300?random=14&sports=snooker',
-    excerpt: '莱斯特小丑伤愈复出，备战德国大师赛期间展示新研发的安全球套路...',
-    date: '2023-11-02',
-    views: 16800
-  },
-  {
-    id: 15,
-    title: '旋转球物理原理解析',
-    category: '技术教学',
-    image: 'https://picsum.photos/400/300?random=15&sports=physics',
-    excerpt: '从力学角度详解台球旋转的产生机制及实战应用场景...',
-    date: '2023-11-01',
-    views: 10200
-  },
-  {
-    id: 16,
-    title: '台球桌布更换指南',
-    category: '器材测评',
-    image: 'https://picsum.photos/400/300?random=16&sports=cloth',
-    excerpt: '专业技师示范正确更换台呢步骤，避免常见安装错误导致的走速不均...',
-    date: '2023-10-31',
-    views: 6800
-  },
-  {
-    id: 17,
-    title: '全国业余联赛总决赛',
-    category: '赛事新闻',
-    image: 'https://picsum.photos/400/300?random=17&sports=amateur',
-    excerpt: '32省市代表队齐聚杭州，争夺中国业余台球最高荣誉...',
-    date: '2023-10-30',
-    views: 12300
-  },
-  {
-    id: 18,
-    title: '颜丙涛解禁后首秀',
-    category: '球员动态',
-    image: 'https://picsum.photos/400/300?random=18&sports=snooker',
-    excerpt: '经历禁赛风波后，中国新星将在澳门大师赛迎来复出首战...',
-    date: '2023-10-29',
-    views: 25600
-  },
-  {
-    id: 19,
-    title: '跳球技术进阶教程',
-    category: '技术教学',
-    image: 'https://picsum.photos/400/300?random=19&sports=jump',
-    excerpt: '职业选手示范三种不同跳球手法，包含器械选择和发力技巧...',
-    date: '2023-10-28',
-    views: 11400
-  },
-  {
-    id: 20,
-    title: '智能记分系统评测',
-    category: '器材测评',
-    image: 'https://picsum.photos/400/300?random=20&sports=scoring',
-    excerpt: '测试最新AI记分设备的识别精度和多人对战模式实用性...',
-    date: '2023-10-27',
-    views: 9200
-  }
+// 零食数据
+const snacksList = ref([
+  { id: 1, title: '爆浆巧克力球', category: '热销零食', image: 'https://picsum.photos/400/300?random=11&snack', excerpt: '浓郁巧克力外壳，内含水果汁爆浆，每一口都是惊喜。', date: '2025-04-20', likes: 1245 },
+  { id: 2, title: '香辣薯片大礼包', category: '热销零食', image: 'https://picsum.photos/400/300?random=22&snack', excerpt: '多种口味组合，满足你对辣味的所有幻想。', date: '2025-04-18', likes: 987 },
+  { id: 3, title: '低脂燕麦能量棒', category: '健康轻食', image: 'https://picsum.photos/400/300?random=33&snack', excerpt: '富含膳食纤维，健康卡路里，运动与办公小伙伴。', date: '2025-04-15', likes: 675 },
+  { id: 4, title: '进口酸奶小熊', category: '进口风味', image: 'https://picsum.photos/400/300?random=44&snack', excerpt: '法国进口酸奶制成，绵密口感，回味悠长。', date: '2025-04-10', likes: 812 },
+  { id: 5, title: '海苔芝士条', category: '新品推荐', image: 'https://picsum.photos/400/300?random=55&snack', excerpt: '香脆海苔与芝士的经典组合，新品首发尝鲜价。', date: '2025-04-08', likes: 430 },
+  { id: 6, title: '水果风味棉花糖', category: '新品推荐', image: 'https://picsum.photos/400/300?random=66&snack', excerpt: '多种水果味道混合，轻盈入口即化。', date: '2025-04-05', likes: 590 }
 ])
 
-// 分页控制
+// 分页
 const currentPage = ref(1)
 const pageSize = 6
 
-// 计算属性
-const filteredNews = computed(() => {
-  return newsList.value
-    .filter(news => 
-      selectedCategory.value === '全部' || news.category === selectedCategory.value
-    )
+const filteredSnacks = computed(() =>
+  snacksList.value
+    .filter(item => selectedCategory.value === '全部' || item.category === selectedCategory.value)
     .slice((currentPage.value - 1) * pageSize, currentPage.value * pageSize)
-})
+)
+const totalPages = computed(() => Math.ceil(snacksList.value.length / pageSize))
 
-const totalPages = computed(() => {
-  return Math.ceil(newsList.value.length / pageSize)
-})
+// 跑马灯动画
+const marqueePosition = ref(0)
+setInterval(() => {
+  marqueePosition.value = marqueePosition.value <= -100 ? 0 : marqueePosition.value - 0.5
+}, 50)
+const marqueeStyle = computed(() => ({ transform: `translateX(${marqueePosition.value}%)` }))
 </script>
 
 <style scoped>
-.billiard-news-container {
+.snack-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background: #f5f5f5;
+  background: linear-gradient(135deg, #fff1eb 0%, #ace0f9 100%);
+  border-radius: 16px;
 }
 
-/* 跑马灯样式 */
-.marquee-container {
-  background: #2c3e50;
-  color: #fff;
-  padding: 12px;
+/* Marquee */
+.snack-marquee-wrap {
   overflow: hidden;
-  position: relative;
-  border-radius: 8px;
+  border-radius: 12px;
+  background: #ffefd5;
   margin-bottom: 30px;
+  padding: 10px 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-
-.marquee-content {
-  white-space: nowrap;
+.snack-marquee {
   display: inline-block;
-  transition: transform 0.5s linear;
-  animation: marquee 15s linear infinite;
-  padding-left: 100%;
+  white-space: nowrap;
+  animation: snack-move 20s linear infinite;
 }
-
-@keyframes marquee {
+@keyframes snack-move {
   0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
-
-.marquee-item {
+.snack-marquee-item {
   font-size: 16px;
-  margin-right: 40px;
-  display: inline-block;
+  margin: 0 40px;
+  color: #d35400;
+  font-weight: bold;
+}
+.snack-divider {
+  margin-left: 20px;
 }
 
-.marquee-divider {
-  color: #4CAF50;
-  margin-left: 30px;
-}
-
-/* 新闻主体样式 */
-.page-title {
+/* 标题 */
+.snack-title {
   text-align: center;
-  color: #2c3e50;
-  font-size: 2.5em;
+  font-size: 2.8em;
   margin: 30px 0;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  color: #c0392b;
+  font-family: 'Comic Sans MS', cursive;
+  text-shadow: 2px 2px rgba(0,0,0,0.1);
 }
 
-.news-categories {
+/* 分类 */
+.snack-nav {
   display: flex;
-  gap: 15px;
-  margin-bottom: 30px;
+  justify-content: center;
   flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 30px;
 }
-
-.category-btn {
-  padding: 8px 20px;
-  border: 2px solid #4CAF50;
-  border-radius: 20px;
+.snack-btn {
+  padding: 10px 24px;
+  border: 2px dashed #c0392b;
+  border-radius: 30px;
   background: transparent;
-  color: #4CAF50;
+  color: #c0392b;
   cursor: pointer;
   transition: all 0.3s;
 }
-
-.category-btn.active1 {
-  background: #4CAF50;
-  color: white;
+.snack-btn-active {
+  background: #c0392b;
+  color: #fff;
+  border-style: solid;
 }
 
-/* 新闻卡片样式 */
-.news-grid {
+/* 零食卡片 */
+.snack-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
 }
-
-.news-card {
-  background: white;
-  border-radius: 12px;
+.snack-card {
+  background: #fff;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
   transform: translateY(0);
   transition: transform 0.3s ease var(--delay);
 }
-
-.news-card:hover {
-  transform: translateY(-5px);
+.snack-card:hover {
+  transform: translateY(-8px) rotate(-1deg);
 }
-
-.news-image {
+.snack-img-wrap {
   position: relative;
   height: 200px;
   overflow: hidden;
 }
-
-.news-image img {
+.snack-img-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
 }
-
-.news-card:hover .news-image img {
-  transform: scale(1.05);
+.snack-card:hover .snack-img-wrap img {
+  transform: scale(1.1);
 }
-
-.news-tag {
+.snack-tag {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  background: #4CAF50;
-  color: white;
-  padding: 5px 15px;
-  border-radius: 15px;
-  font-size: 0.9em;
+  top: 12px;
+  left: 12px;
+  background: #e67e22;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85em;
 }
-
-.news-content {
-  padding: 20px;
+.snack-info {
+  padding: 18px;
 }
-
-.news-title {
+.snack-item-title {
+  font-size: 1.4em;
+  margin-bottom: 10px;
   color: #2c3e50;
-  font-size: 1.3em;
-  margin-bottom: 12px;
 }
-
-.news-excerpt {
-  color: #666;
+.snack-desc {
+  font-size: 0.95em;
   line-height: 1.6;
-  margin-bottom: 15px;
+  color: #7f8c8d;
+  margin-bottom: 14px;
 }
-
-.news-meta {
+.snack-meta {
   display: flex;
   justify-content: space-between;
-  color: #888;
   font-size: 0.9em;
+  color: #95a5a6;
 }
 
-/* 分页样式 */
-.pagination {
+/* 分页 */
+.snack-pager {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-top: 40px;
 }
-
-.page-btn {
-  padding: 8px 15px;
-  border: 1px solid #ddd;
+.snack-page {
+  padding: 8px 16px;
+  border: 1px solid #bdc3c7;
   border-radius: 6px;
-  background: white;
+  background: #fff;
   cursor: pointer;
-  transition: all 0.3s;
 }
-
-.page-btn.active1 {
-  background: #4CAF50;
-  color: white;
-  border-color: #4CAF50;
+.snack-page-active {
+  background: #c0392b;
+  color: #fff;
+  border-color: #c0392b;
 }
 
 @media (max-width: 768px) {
-  .news-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .marquee-item {
-    font-size: 14px;
-  }
-  
-  .page-title {
-    font-size: 2em;
-  }
+  .snack-grid { grid-template-columns: 1fr; }
+  .snack-marquee-item { font-size: 14px; }
+  .snack-title { font-size: 2.4em; }
 }
 </style>
